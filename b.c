@@ -5,12 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "keymap.h"
 
 #define STROBE 2
 #define CLOCK 7
-
-int keymap[] = {0,
-KEY_NUMERIC_7, KEY_NUMERIC_4, KEY_INSERT, 0, KEY_CLEAR, 0, /*KEY_TRANSMIT*/ 0, KEY_APOSTROPHE, KEY_SPACE, KEY_LEFTBRACE, KEY_ENTER, KEY_BACKSLASH, KEY_GRAVE, KEY_BACKSPACE, KEY_NUMERIC_1, KEY_A, KEY_C, KEY_S, KEY_E, KEY_W, KEY_3, KEY_4, KEY_X, KEY_L, 0, KEY_SEMICOLON, KEY_LEFTBRACE, KEY_P, KEY_MINUS, KEY_EQUAL, KEY_SLASH, KEY_D, KEY_B, KEY_F, KEY_T, KEY_R, KEY_5, KEY_6, KEY_V, KEY_J, KEY_DOT, KEY_K, KEY_O, KEY_I, KEY_9, KEY_0, KEY_COMMA, KEY_G, KEY_M, KEY_H, KEY_U, KEY_Y, KEY_7, KEY_8, KEY_N, KEY_F2, KEY_Z, /*KEY_CTRL*/ 0, KEY_Q, KEY_TAB, KEY_1, KEY_2, KEY_F3, KEY_DELETE, KEY_NUMERIC_0, KEY_NUMERIC_6, KEY_NUMERIC_5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_NUMERIC_9, KEY_NUMERIC_8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_TAB, KEY_MINUS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_NUMERIC_3, KEY_DOT, KEY_NUMERIC_2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_NUMERIC_7, KEY_NUMERIC_4, 0, 0, KEY_CLEAR, 0, 0, 0, KEY_SPACE, 0, 0, KEY_BACKSLASH, KEY_GRAVE, KEY_BACKSPACE, KEY_NUMERIC_1, KEY_A, KEY_C, KEY_S, KEY_E, KEY_W, KEY_3, KEY_4, KEY_X, KEY_L, 0, KEY_SEMICOLON, 0, KEY_P, KEY_MINUS, 0, KEY_SLASH, KEY_D, KEY_B, KEY_F, KEY_T, KEY_R, KEY_5, KEY_6, KEY_V, KEY_J, KEY_DOT, KEY_K, KEY_O, KEY_I, KEY_9, KEY_0, KEY_COMMA, KEY_G, KEY_M, KEY_H, KEY_U, KEY_Y, KEY_7, KEY_8, KEY_N, KEY_F2, KEY_Z, 0, KEY_Q, KEY_TAB, KEY_1, KEY_2, KEY_F3, KEY_DELETE, KEY_NUMERIC_0, KEY_NUMERIC_6, KEY_NUMERIC_5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_NUMERIC_9, KEY_NUMERIC_8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_TAB, KEY_MINUS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_NUMERIC_3, KEY_DOT, KEY_NUMERIC_2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int clock_keypress(struct ftdi_context *ftdi)
 {
@@ -27,7 +25,7 @@ int clock_keypress(struct ftdi_context *ftdi)
         ftdi_write_data(ftdi, buf, 1);
         usleep(5000);
     }
-    printf("0x%02x, ", k);
+    printf("0x%02x %s, ", keymap[k].keycode, keymap[k].name);
 }
 
 int main(int argc, char **argv)

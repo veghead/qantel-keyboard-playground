@@ -5,7 +5,7 @@
 
 #define KEY_MAP_DEF(x) {x,#x}
 
-mapping_t keymap[] = {
+mapping_t keymap[256] = {
                 KEY_MAP_DEF(0),
                 KEY_MAP_DEF(KEY_NUMERIC_7),
                 KEY_MAP_DEF(KEY_NUMERIC_4),

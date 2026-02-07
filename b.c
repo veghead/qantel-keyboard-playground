@@ -25,13 +25,18 @@ int clock_keypress(struct ftdi_context *ftdi)
         ftdi_write_data(ftdi, buf, 1);
         usleep(5000);
     }
+    buf[0] = 0x20;
+    ftdi_write_data(ftdi, buf, 1);
+    usleep(100000);
+    buf[0] = 0;
+    ftdi_write_data(ftdi, buf, 1);
     printf("0x%02x %s, ", keymap[k].keycode, keymap[k].name);
 }
 
 int main(int argc, char **argv)
 {
     struct ftdi_context *ftdi;
-    int f, i;
+    int f;
     unsigned char buf[1];
     int retval = 0;
 
@@ -55,7 +60,7 @@ int main(int argc, char **argv)
     printf("enabling bitbang mode\n");
     // 0xFF all output
     // 0x00 all input
-    ftdi_set_bitmode(ftdi, 0x80, BITMODE_BITBANG);
+    ftdi_set_bitmode(ftdi, 0xA0, BITMODE_BITBANG);
 
     bool strobe = false;
     while (true)
